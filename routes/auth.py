@@ -15,8 +15,7 @@ def signup():
     data = request.get_json()
     if not data:
         return jsonify({"error": "Request must be JSON"}), 400
-
-    print("Received data:", data)
+    
     username = data.get("username")
     email = data.get("email")
     password = data.get("password")
@@ -51,8 +50,8 @@ def login():
     if not user:
         return jsonify({"error": "Invalid credentials"}), 401
 
-    pw_entry = Password.query.filter_by(user_id=user.id).first()
+    pw_entry = Password.query.filter_by(user_id=user.user_id).first()
     if pw_entry and bcrypt.check_password_hash(pw_entry.password_hash, password):
-        return jsonify({"message": "Login successful", "user_id": user.id}), 200
+        return jsonify({"message": "Login successful", "user_id": user.user_id}), 200
     else:
         return jsonify({"error": "Invalid credentials"}), 401
