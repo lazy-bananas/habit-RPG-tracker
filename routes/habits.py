@@ -29,7 +29,7 @@ def create_habit():
     habit = Habit(user_id=user_id, name=name, type=type_, xp_value=xp_value, cover_photo=cover_photo)
     db.session.add(habit)
     db.session.commit()
-    return jsonify({"message": "Habit created"}), 201
+    return jsonify({"message": "Habit created", "habit_id": habit.id, "user_id": habit.user_id}), 201
 
 
 @habits_bp.route("/<int:habit_id>/done", methods=["POST"])
