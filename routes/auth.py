@@ -57,7 +57,7 @@ def login():
         return jsonify({"error": "Invalid credentials"}), 401
 
 
-@app.route("/test-post", methods=["POST"])
+@auth_bp.route("/test-post", methods=["POST"])
 def test_post():
     data = request.get_json()
     return {"received": data}, 200
