@@ -34,9 +34,15 @@ app.register_blueprint(rewards_bp)
 def home():
     return "Welcome to Habit RPG Tracker! Flask backend is running successfully."
 
+with app.app_context():
+    try:
+        db.create_all()
+        print("Database tables created (Render compatible).")
+    except Exception as e:
+        print("Error creating tables:", e)
+
 
 if __name__ == "__main__":
-    import os
     if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         print("SECRET_KEY →", os.getenv("SECRET_KEY"))
         print("DATABASE_URI →", os.getenv("DATABASE_URI"))
