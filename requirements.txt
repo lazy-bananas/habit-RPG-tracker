@@ -7,5 +7,4 @@ python-dotenv==1.0.0
 Werkzeug==2.2.3
 Flask-Cors==3.0.10
 gunicorn
-echo >> requirements.txt
-echo >> runtime.txt
+
