@@ -15,7 +15,7 @@ def signup():
     data = request.get_json()
     if not data:
         return jsonify({"error": "Request must be JSON"}), 400
-    
+    print("signup hit:", data)
     username = data.get("username")
     email = data.get("email")
     password = data.get("password")
@@ -24,14 +24,20 @@ def signup():
         return jsonify({"error": "Missing fields"}), 400
 
     try:
+        print("Creating user...")
         user = User(username=username, email=email)
         db.session.add(user)
         db.session.flush()  # to get user.id before commit
+        print("Created user with id:", user.user_id)
 
+        print("Creating password...")
         hash_pw = bcrypt.generate_password_hash(password).decode("utf-8")
+        print("creating password entry...")
         pw_entry = Password(user_id=user.user_id, password_hash=hash_pw)
         db.session.add(pw_entry)
+        print("Committing...")
         db.session.commit()
+        print("Commit successful")
 
         return jsonify({"message": "Signup successful", "user_id": user.user_id}), 201
 
