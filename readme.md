@@ -93,7 +93,7 @@ POST	| /habits/daily_reset  |	Reset streaks & restore health/mana daily
 ### **POST /habits/**
 
 **Request**
-
+xp_value and cover_photo are optional
 ```json
 {
   "user_id": 1,
@@ -109,7 +109,9 @@ POST	| /habits/daily_reset  |	Reset streaks & restore health/mana daily
 
 ```json
 {
-  "message": "Habit created"
+  "habit_id": 13,
+  "message": "Habit created",
+  "user_id": 1
 }
 ```
 
@@ -119,7 +121,7 @@ POST	| /habits/daily_reset  |	Reset streaks & restore health/mana daily
 
 ```json
 {
-  "habit_id": 2
+  "habit_id": 1
 }
 ```
 
@@ -127,9 +129,14 @@ POST	| /habits/daily_reset  |	Reset streaks & restore health/mana daily
 
 ```json
 {
-  "message": "Updated XP and streak",
-  "new_xp": 120,
-  "level": 2
+  "health": 40,
+  "level": 1,
+  "longest_streak": 1,
+  "mana": 40,
+  "message": "Habit completed",
+  "rank": "Unrepentant Slacker",
+  "streak": 1,
+  "xp": 20
 }
 ```
 

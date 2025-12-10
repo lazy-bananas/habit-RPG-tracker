@@ -85,18 +85,18 @@ def mark_done(habit_id):
     user.level = calculate_level(user.xp)
     
     level_names = [
-        "Unrepentant Slacker",
-        "Persistent Slacker",
-        "Recovering Slacker",
-        "Depressed Drone",
-        "Demoralised Drone",
-        "Dead-Eye Drone",
-        "Bored Attendant",
-        "Resigned Attendant",
-        "Obedient Attendant",
-        "Competent Operative",
-        "Engaged Operative",
-        "Committed Operative"
+        "Dormant Beginner",
+        "Reluctant Starter",
+        "Awakening Novice",
+        "Weary Wanderer",
+        "Determined Wanderer",
+        "Focused Adept",
+        "Steady Attendant",
+        "Resolute Attendant",
+        "Disciplined Attendant",
+        "Skilled Operative",
+        "Advanced Operative",
+        "Master Operative"
     ]
 
     user.level_name = level_names[min(user.level-1,11)]
