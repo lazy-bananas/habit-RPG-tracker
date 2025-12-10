@@ -32,11 +32,11 @@ with app.app_context():
 | POST   | `/auth/login`  | Log in an existing user |
 
 ### 💪 HABITS
-
-| Method | Endpoint                  | Description                                    |
-| ------ | ------------------------- | ---------------------------------------------- |
-| POST   | `/habits/`                | Create a new habit                             |
-| POST   | `/habits/<habit_id>/done` | Mark habit as completed (update XP and streak) |
+Method|	Endpoint             |	Description
+GET   |	/habits/	           |  List all habits
+POST	| /habits/	           |  Create a new habit
+POST	| /habits/<id>/done	   |  Mark a habit as done + XP & streak update
+POST	| /habits/daily_reset  |	Reset streaks & restore health/mana daily
 
 ### 🎁 REWARDS
 
@@ -98,7 +98,8 @@ with app.app_context():
 {
   "user_id": 1,
   "name": "Read for 30 mins",
-  "type": "good",
+  "habit_type": "good",
+  "habit_nature": "mental",
   "xp_value": 20,
   "cover_photo": "https://example.com/book.jpg"
 }
