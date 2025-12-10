@@ -96,7 +96,7 @@ POST	| `/habits/daily_reset`|	Reset streaks & restore health/mana daily
 ```
 ### **GET /auth/me**
 **Headers**
-Authorization: Bearer <access_token>
+Authorization: Bearer <access_token>  (without quotes)
 
 **Response**
 ```json
@@ -117,7 +117,7 @@ Authorization: Bearer <access_token>
 
 ### **POST /auth/refresh**
  **Header**
- Authorization: Bearer <refresh_token>
+ Authorization: Bearer <refresh_token>      (without quotes)
 
  **Response**
  ```json
@@ -137,6 +137,27 @@ POST /auth/logout
 {
   "message": "Logged out successfully"
 }
+```
+
+
+### **GET /habits/**
+**Header**
+Authorization: Bearer <refresh_token>      (without quotes)
+
+**Response**
+```json
+[
+  {
+    "id": 1,
+    "name": "Running",
+    "habit_type": "good",
+    "habit_nature": "physical",
+    "xp_value": 10,
+    "streak": 3,
+    "last_done": "2025-12-10"
+  },
+  ...
+]
 ```
 
 ### **POST /habits/**

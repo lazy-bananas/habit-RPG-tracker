@@ -9,7 +9,7 @@ habits_bp = Blueprint('habits', __name__, url_prefix="/habits")
 @habits_bp.route("/", methods=["GET"])
 @jwt_required()
 def list_habits():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     habits = Habit.query.filter_by(user_id=user_id, done_today = False).all()
     return jsonify([
         {"id": h.id, "user_id": h.user_id, "name": h.name, "habit_type": h.habit_type, "habit_nature": h.habit_nature,
