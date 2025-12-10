@@ -143,7 +143,7 @@ def logout():
 @jwt_required()
 def me():
     identity = get_jwt_identity()
-    user = User.query.get(identity)
+    user = User.query.get(int(identity))
     if not user:
         return jsonify({"error": "User not found"}), 404
 
