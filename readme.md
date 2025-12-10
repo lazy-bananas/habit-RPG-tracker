@@ -31,6 +31,8 @@ with app.app_context():
 | POST   | `/auth/signup` | Register a new user     |
 | POST   | `/auth/login`  | Log in an existing user |
 | POST   | `/auth/logout` | For user to log out     |
+|POST    | `/auth/refresh/`| To get new access token|
+|GET     | `/auth/me`      | To get profile         |
 
 ### 💪 HABITS
 Method|	Endpoint             |	Description
@@ -92,6 +94,38 @@ POST	| /habits/daily_reset  |	Reset streaks & restore health/mana daily
   "refresh_token": "<JWT_REFRESH_TOKEN>"
 }
 ```
+### **GET /auth/me**
+**Headers**
+Authorization: Bearer <access_token>
+
+**Response**
+```json
+{
+  "user_id": 1,
+  "username": "Sanchit",
+  "email": "test@example.com",
+  "xp": 120,
+  "level": 2,
+  "mana": 80,
+  "health": 90,
+  "days_alive": 10,
+  "current_streak": 3,
+  "longest_streak": 5
+}
+```
+
+
+### **POST /auth/refresh**
+ **Header**
+ Authorization: Bearer <refresh_token>
+
+ **Response**
+ ```json
+ {
+  "access_token": "<new_access_token>"
+}
+```
+
 
 ### **POST /auth/logout**
 
