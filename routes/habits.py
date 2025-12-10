@@ -2,15 +2,18 @@ from flask import Blueprint, request, jsonify
 from models import db, User, Habit
 from datetime import date, timedelta
 from flask import request
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 habits_bp = Blueprint('habits', __name__, url_prefix="/habits")
 
 @habits_bp.route("/", methods=["GET"])
+@jwt_required()
 def list_habits():
-    habits = Habit.query.all()
+    user_id = get_jwt_identity()
+    habits = Habit.query.filter_by(user_id=user_id, done_today = False).all()
     return jsonify([
         {"id": h.id, "user_id": h.user_id, "name": h.name, "habit_type": h.habit_type, "habit_nature": h.habit_nature,
-         "xp_value": h.xp_value, "streak": h.streak, "last_done": str(h.last_done)}
+         "xp_value": h.xp_value, "streak": h.streak, "last_done": str(h.last_done), "done_today": h.done_today}
         for h in habits
     ])
 
