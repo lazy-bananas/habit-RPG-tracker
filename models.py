@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from datetime import date
+from datetime import date, datetime
 
 db = SQLAlchemy()
 
@@ -65,3 +65,11 @@ class UserReward(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     reward_id = db.Column(db.Integer, db.ForeignKey("rewards.id"), nullable=False)
     purchased_at = db.Column(db.DateTime)
+
+
+# ---------------------- TOKEN BLOCKLIST TABLE ----------------------
+class TokenBlocklist(db.Model):
+    __tablename__ = "token_blocklist"
+    id = db.Column(db.Integer, primary_key=True)
+    jti = db.Column(db.String(36), nullable=False, index=True)  # JWT ID
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)

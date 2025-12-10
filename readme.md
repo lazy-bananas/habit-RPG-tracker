@@ -30,6 +30,7 @@ with app.app_context():
 | ------ | -------------- | ----------------------- |
 | POST   | `/auth/signup` | Register a new user     |
 | POST   | `/auth/login`  | Log in an existing user |
+| POST   | `/auth/logout` | For user to log out     |
 
 ### 💪 HABITS
 Method|	Endpoint             |	Description
@@ -86,7 +87,21 @@ POST	| /habits/daily_reset  |	Reset streaks & restore health/mana daily
 ```json
 {
   "message": "Login successful",
-  "user_id": 1
+  "user_id": 1,
+  "access_token": "<JWT_ACCESS_TOKEN>",
+  "refresh_token": "<JWT_REFRESH_TOKEN>"
+}
+```
+
+### **POST /auth/logout**
+
+**Endpoint** 
+POST /auth/logout
+
+**Response**
+```json
+{
+  "message": "Logged out successfully"
 }
 ```
 
@@ -134,7 +149,7 @@ xp_value and cover_photo are optional
   "longest_streak": 1,
   "mana": 40,
   "message": "Habit completed",
-  "rank": "Unrepentant Slacker",
+  "rank": "Dormant Beginner",
   "streak": 1,
   "xp": 20
 }
