@@ -9,3 +9,4 @@ Flask-Cors==3.0.10
 Flask-Bcrypt==1.0.1
 gunicorn
 psycopg2-binary
+Flask-Migrate

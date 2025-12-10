@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models import db, User, Password
+from models import db, User, Password, Habit
 from flask_bcrypt import Bcrypt
 from sqlalchemy.exc import IntegrityError
 
@@ -9,6 +9,31 @@ bcrypt = Bcrypt()
 @auth_bp.route("/", methods=["GET"])
 def auth_home():
     return jsonify({"message": "Auth blueprint working!"})
+
+
+def load_default_habits(user_id):
+    defaults = [
+        ("Running", "good", "physical"),
+        ("Meditation", "good", "mental"),
+        ("Drinking Water", "good", "physical"),
+        ("Bad Sleep", "bad", "physical"),
+        ("Eating Junk Food", "bad", "physical"),
+        ("Doomscrolling", "bad", "mental"),
+    ]
+
+    for name, t, n in defaults:
+        exists = Habit.query.filter_by(user_id=user_id, name=name).first()
+        if not exists:
+            db.session.add(Habit(
+                user_id=user_id,
+                name=name,
+                habit_type=t,
+                habit_nature=n,
+                xp_value=10
+            ))
+
+    db.session.commit()
+
 
 @auth_bp.route("/signup", methods=["POST"])
 def signup():
@@ -38,6 +63,8 @@ def signup():
         print("Committing...")
         db.session.commit()
         print("Commit successful")
+
+        load_default_habits(user.user_id)
 
         return jsonify({"message": "Signup successful", "user_id": user.user_id}), 201
 
