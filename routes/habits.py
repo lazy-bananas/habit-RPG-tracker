@@ -53,9 +53,9 @@ def mark_done(habit_id):
         return jsonify({"message": "Habit already done today"}), 400
 
     # XP logic
-    if habit.type == "good":
+    if habit.habit_type == "good":
         user.xp += habit.xp_value
-    elif habit.type == "bad":
+    elif habit.habit_type == "bad":
         user.xp -= habit.xp_value
         user.xp = max(user.xp, 0)  # prevent negative XP
 
