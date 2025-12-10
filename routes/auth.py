@@ -108,8 +108,8 @@ def login():
     db.session.commit()
 
     # create tokens
-    access_token = create_access_token(identity=user.user_id, additional_claims={"username": user.username})
-    refresh_token = create_refresh_token(identity=user.user_id)
+    access_token = create_access_token(identity=str(user.user_id), additional_claims={"username": user.username})
+    refresh_token = create_refresh_token(identity=str(user.user_id))
 
     return jsonify({
         "message": "Login successful",
@@ -122,7 +122,7 @@ def login():
 @auth_bp.route("/refresh", methods=["POST"])
 @jwt_required(refresh=True)
 def refresh():
-    identity = get_jwt_identity()
+    identity = int(get_jwt_identity())
     access_token = create_access_token(identity=identity)
     return jsonify({"access_token": access_token}), 200
 
@@ -136,7 +136,7 @@ def logout():
     # add JTI to blocklist
     db.session.add(TokenBlocklist(jti=jti))
     db.session.commit()
-    return jsonify({"msg": "Tokens revoked, logged out"}), 200
+    return jsonify({"message": "Logged out successfully"}), 200    #Tokens revoked 
 
 # Example protected route that demonstrates persistent-check
 @auth_bp.route("/me", methods=["GET"])

@@ -36,10 +36,10 @@ with app.app_context():
 
 ### 💪 HABITS
 Method|	Endpoint             |	Description
-GET   |	/habits/	           |  List all habits
-POST	| /habits/	           |  Create a new habit
-POST	| /habits/<id>/done	   |  Mark a habit as done + XP & streak update
-POST	| /habits/daily_reset  |	Reset streaks & restore health/mana daily
+GET   |	`/habits/`           |  List all habits
+POST	| `/habits/`	         |  Create a new habit
+POST	| `/habits/<id>/done`  |  Mark a habit as done + XP & streak update
+POST	| `/habits/daily_reset`|	Reset streaks & restore health/mana daily
 
 ### 🎁 REWARDS
 
