@@ -157,8 +157,6 @@ def me():
         "mana": user.mana,
         "health": user.health,
         "days_alive": user.days_alive,
-        "current_streak": user.current_streak,
-        "longest_streak": user.longest_streak
     })
 
 @auth_bp.route("/test-post", methods=["POST"])
