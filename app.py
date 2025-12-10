@@ -45,10 +45,4 @@ with app.app_context():
 
 
 if __name__ == "__main__":
-    if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
-        print("SECRET_KEY →", os.getenv("SECRET_KEY"))
-        print("DATABASE_URI →", os.getenv("DATABASE_URI"))
-        print("JWT_SECRET_KEY →", os.getenv("JWT_SECRET_KEY"))
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
