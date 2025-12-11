@@ -33,6 +33,7 @@ with app.app_context():
 | POST   | `/auth/logout` | For user to log out     |
 |POST    | `/auth/refresh/`| To get new access token|
 |GET     | `/auth/me`      | To get profile         |
+|GET     | `/auth/streaks/`| To get all the streaks of a user|
 
 ### 💪 HABITS
 Method|	Endpoint             |	Description
@@ -94,6 +95,18 @@ POST	| `/habits/daily_reset`|	Reset streaks & restore health/mana daily
   "refresh_token": "<JWT_REFRESH_TOKEN>"
 }
 ```
+
+### **POST /auth/refresh**
+ **Header**
+ Authorization: Bearer <refresh_token>      (without quotes)
+
+ **Response**
+ ```json
+ {
+  "access_token": "<new_access_token>"
+}
+```
+
 ### **GET /auth/me**
 **Headers**
 Authorization: Bearer <access_token>  (without quotes)
@@ -108,21 +121,39 @@ Authorization: Bearer <access_token>  (without quotes)
   "level": 2,
   "mana": 80,
   "health": 90,
-  "days_alive": 10,
   "current_streak": 3,
   "longest_streak": 5
 }
 ```
 
+### **GET /aith/streaks/**
+**Header**
+Authorization: Bearer <refresh_token>      (without quotes)
 
-### **POST /auth/refresh**
- **Header**
- Authorization: Bearer <refresh_token>      (without quotes)
-
- **Response**
- ```json
- {
-  "access_token": "<new_access_token>"
+**Response**
+```json
+{
+  "user": {
+    "current_streak": 3,
+    "longest_streak": 5,
+    "last_completed": "2025-12-10"
+  },
+  "habits": [
+    {
+      "habit_id": 7,
+      "name": "Drink Water",
+      "streak": 4,
+      "longest_streak": 6,
+      "last_done": "2025-12-10"
+    },
+    {
+      "habit_id": 8,
+      "name": "Read 10 pages",
+      "streak": 1,
+      "longest_streak": 9,
+      "last_done": "2025-12-09"
+    }
+  ]
 }
 ```
 

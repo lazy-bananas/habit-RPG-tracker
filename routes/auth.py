@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models import db, User, Password, Habit, TokenBlocklist
+from models import db, User, Password, Habit, TokenBlocklist, UserStreak
 from flask_bcrypt import Bcrypt
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import (
@@ -146,6 +146,16 @@ def me():
     user = User.query.get(int(identity))
     if not user:
         return jsonify({"error": "User not found"}), 404
+    
+    streak = UserStreak.query.filter_by(user_id=user.user_id).first()
+    
+    if streak:
+        current_streak = streak.current_streak
+        longest_streak = streak.longest_streak
+    else:
+        current_streak = 0
+        longest_streak = 0
+
 
     return jsonify({
         "user_id": user.user_id,
@@ -156,8 +166,39 @@ def me():
         "level_name": user.level_name,
         "mana": user.mana,
         "health": user.health,
-        "days_alive": user.days_alive,
+        "current_streak": current_streak,
+        "longest_streak": longest_streak
     })
+
+
+
+@auth_bp.route("/streaks", methods=["GET"])
+@jwt_required()
+def streaks():
+    user_id = int(get_jwt_identity())
+
+    # Get user streak
+    user_streak = UserStreak.query.filter_by(user_id=user_id).first()
+
+    # Get all habits of this user
+    habits = Habit.query.filter_by(user_id=user_id).all()
+
+    return jsonify({
+        "user_streak": {
+            "current_streak": user_streak.current_streak if user_streak else 0,
+            "longest_streak": user_streak.longest_streak if user_streak else 0
+        },
+        "habit_streaks": [
+            {
+                "habit_id": h.id,
+                "name": h.name,
+                "habit_streak": h.streak,
+                "habit_longest_streak": h.longest_streak
+            }
+            for h in habits
+        ]
+    }), 200
+
 
 @auth_bp.route("/test-post", methods=["POST"])
 def test_post():

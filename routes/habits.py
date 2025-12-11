@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models import db, User, Habit
+from models import db, User, Habit, UserStreak
 from datetime import date, timedelta
 from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -42,6 +42,37 @@ def calculate_level(xp):
         level += 1
     return level
 
+
+def update_streak(user_id):
+    user = User.query.get(user_id)
+    streak = UserStreak.query.filter_by(user_id=user_id).first()
+
+    if streak is None:
+        streak = UserStreak(user_id=user_id, current_streak=0, longest_streak=0, last_completed=None)
+        db.session.add(streak)
+        db.session.commit()
+
+    today = date.today()
+
+    if streak.last_completed == today:
+        return streak
+    
+    if streak.last_completed == today - timedelta(days=1):
+        streak.current_streak += 1
+    else:
+        streak.current_streak = 1
+
+    streak.last_completed = today
+    streak.longest_streak = max(streak.longest_streak, streak.current_streak)
+    
+    db.session.commit()
+
+    return streak
+
+
+#def update_user_streak(user_id):
+    user = User.query.get(user_id)
+    return update_streak(user)
 
 @habits_bp.route("/<int:habit_id>/done", methods=["POST"])
 def mark_done(habit_id):
@@ -103,6 +134,8 @@ def mark_done(habit_id):
     ]
 
     user.level_name = level_names[min(user.level-1,11)]
+    streak = update_streak(user.user_id)
+    
     db.session.commit()
     return jsonify({"message": "Habit completed",
                     "xp": user.xp,
@@ -110,8 +143,11 @@ def mark_done(habit_id):
                     "rank": user.level_name,
                     "mana": user.mana,
                     "health": user.health,
-                    "streak": habit.streak,
-                    "longest_streak": habit.longest_streak}), 200
+                    "habit_streak": habit.streak,
+                    "habit_longest_streak": habit.longest_streak,
+                    "user_streak": streak.current_streak,
+                    "user_longest_streak": streak.longest_streak
+                    }), 200
 
 
 
