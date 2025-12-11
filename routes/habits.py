@@ -54,13 +54,13 @@ def update_streak(user_id):
 
     today = date.today()
 
-    if streak.last_completed == today:
-        return streak
+    #if streak.last_completed == today:
+        #return streak
     
-    if streak.last_completed == today - timedelta(days=1):
-        streak.current_streak += 1
-    else:
-        streak.current_streak = 1
+    #if streak.last_completed == today - timedelta(days=1):
+    streak.current_streak += 1
+    #else:
+        #streak.current_streak = 1
 
     streak.last_completed = today
     streak.longest_streak = max(streak.longest_streak, streak.current_streak)
@@ -103,10 +103,10 @@ def mark_done(habit_id):
         user.health = max(user.health, 0)
 
     # streak update
-    if habit.last_done == today - timedelta(days=1):
-        habit.streak += 1
-    else:
-        habit.streak = 1
+    #if habit.last_done == today - timedelta(days=1):
+    habit.streak += 1
+    #else:
+        #habit.streak = 1
     habit.last_done = today
     habit.done_today = True
 
@@ -175,10 +175,10 @@ def daily_reset():
 
     for habit in habits:
         habit.done_today = False
-        if habit.last_done != today - timedelta(days=1):
-            habit.streak = 0
-        else:
-            habit.streak += 1
+        #if habit.last_done != today - timedelta(days=1):
+           # habit.streak = 0
+        #else:
+          #  habit.streak += 1
 
     db.session.commit()
     return jsonify({"message": "Daily reset complete"})
