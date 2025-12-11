@@ -169,9 +169,9 @@ def daily_reset():
         user.health = user.max_health
 
         # Count active days
-        if user.last_login != today:
-            user.active_days += 1
-        user.last_login = today
+        #if user.last_login != today:
+           # user.active_days += 1
+        #user.last_login = today
 
     for habit in habits:
         habit.done_today = False
