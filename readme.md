@@ -126,7 +126,7 @@ Authorization: Bearer <access_token>  (without quotes)
 }
 ```
 
-### **GET /aith/streaks/**
+### **GET /auth/streaks**
 **Header**
 Authorization: Bearer <refresh_token>      (without quotes)
 
