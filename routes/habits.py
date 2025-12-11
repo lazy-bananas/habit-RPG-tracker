@@ -177,6 +177,8 @@ def daily_reset():
         habit.done_today = False
         if habit.last_done != today - timedelta(days=1):
             habit.streak = 0
+        else:
+            habit.streak += 1
 
     db.session.commit()
     return jsonify({"message": "Daily reset complete"})
