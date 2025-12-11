@@ -9,6 +9,7 @@ from datetime import timedelta
 from routes.auth import auth_bp
 from routes.habits import habits_bp
 from routes.rewards import rewards_bp
+from routes.avatar import avatars_bp
 import os
 
 
@@ -53,6 +54,7 @@ def revoked_token_callback(jwt_header, jwt_payload):
 app.register_blueprint(auth_bp)
 app.register_blueprint(habits_bp)
 app.register_blueprint(rewards_bp)
+app.register_blueprint(avatars_bp)
 
 @app.route('/')
 def home():

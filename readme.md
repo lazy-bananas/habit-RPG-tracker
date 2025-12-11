@@ -49,6 +49,12 @@ POST	| `/habits/daily_reset`|	Reset streaks & restore health/mana daily
 | GET    | `/rewards/`    | List all available rewards |
 | POST   | `/rewards/buy` | Purchase a reward using XP |
 
+
+### 🖼️ AVATAR
+
+|Method | Endpoint       | Description   |
+| GET    | `/avatar/list`    | List all available avatars |
+| POST   | `/avatar/select` | Let user select an avatar |
 ---
 
 ## 🧱 Example Requests & Responses
@@ -269,5 +275,40 @@ xp_value and cover_photo are optional
 {
   "message": "Reward purchased successfully",
   "remaining_xp": 80
+}
+```
+
+### **GET /avatar/list**
+
+**Resonse**
+```json
+[
+  {
+    "avatar_id": 1,
+    "filename": "warrior.png",
+    "url": "/static/avatars/warrior.png"
+  },
+  {
+    "avatar_id": 2,
+    "filename": "mage.png",
+    "url": "/static/avatars/mage.png"
+  }
+]
+```
+
+### **POST /avatar/select**
+ **Header**
+ Authorization: Bearer <refresh_token>      (without quotes)
+
+**Request**
+```json
+{
+  "avatar_id": 2
+}
+```
+**Response**
+```json
+{
+  "message": "Avatar updated successfully"
 }
 ```

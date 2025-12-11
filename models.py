@@ -74,7 +74,7 @@ class TokenBlocklist(db.Model):
     jti = db.Column(db.String(36), nullable=False, index=True)  # JWT ID
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
-
+#----------------------- USER STREAK TABLE ----------------------
 class UserStreak(db.Model):
     __tablename__ = "user_streaks"
 
@@ -87,3 +87,21 @@ class UserStreak(db.Model):
     last_completed = db.Column(db.Date, default=None)
 
     user = db.relationship("User", backref="streak_data", uselist=False)
+
+
+
+#----------------------- AVATAR LIST TABLE ----------------------
+class AvatarList(db.Model):
+    __tablename__ = "avatar_list"
+
+    avatar_id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(200), nullable=False)  # e.g. "warrior.png"
+
+
+#----------------------- USER AVATAR TABLE ----------------------
+class UserAvatar(db.Model):
+    __tablename__ = "user_avatars"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+    avatar_id = db.Column(db.Integer, db.ForeignKey("avatar_list.avatar_id"), nullable=False)
