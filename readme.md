@@ -52,9 +52,10 @@ POST	| `/habits/daily_reset`|	Reset streaks & restore health/mana daily
 
 ### 🖼️ AVATAR
 
-|Method | Endpoint       | Description   |
-| GET    | `/avatar/list`    | List all available avatars |
-| POST   | `/avatar/select` | Let user select an avatar |
+|Method | Endpoint         | Description   |
+| GET   | `/avatar/list`   | List all available avatars |
+| POST  | `/avatar/select` | Let user select an avatar  |
+|POST   | `/avatar/seed`   | To add avatars in db (to be run only once) |
 ---
 
 ## 🧱 Example Requests & Responses
@@ -125,6 +126,7 @@ Authorization: Bearer <access_token>  (without quotes)
   "email": "test@example.com",
   "xp": 120,
   "level": 2,
+  "level_name": "Dormant Beginner",
   "mana": 80,
   "health": 90,
   "current_streak": 3,
@@ -310,5 +312,15 @@ xp_value and cover_photo are optional
 ```json
 {
   "message": "Avatar updated successfully"
+}
+```
+
+
+### **POST /avatar/seed**
+**Response**
+```json
+{
+  "message": "Avatar list updated",
+  "inserted": ["hero.png", "mage.png", "archer.png"]
 }
 ```

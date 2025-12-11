@@ -47,3 +47,35 @@ def select_avatar():
     db.session.commit()
 
     return jsonify({"message": "Avatar updated successfully"}), 200
+
+
+# --- ONE-TIME SEED ROUTE (RUN ONLY ONCE) ---
+@avatar_bp.route("/seed", methods=["POST"])
+def seed_avatars():
+    import os
+    from flask import current_app
+
+    folder_path = os.path.join(current_app.root_path, "static", "avatars")
+
+    if not os.path.exists(folder_path):
+        return jsonify({"error": "avatars folder not found"}), 404
+
+    files = os.listdir(folder_path)
+
+    inserted = []
+    for f in files:
+        if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif")):
+            # Check if already exists
+            existing = AvatarList.query.filter_by(filename=f).first()
+            if not existing:
+                avatar = AvatarList(filename=f)
+                db.session.add(avatar)
+                inserted.append(f)
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Avatar list updated",
+        "inserted": inserted
+    }), 200
+

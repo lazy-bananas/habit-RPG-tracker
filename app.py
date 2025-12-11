@@ -22,7 +22,7 @@ print("Loading from:", dotenv_path)
 load_dotenv(dotenv_path)
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.config.from_object(Config)
 
 # Access token short (minutes), Refresh token long (days)
