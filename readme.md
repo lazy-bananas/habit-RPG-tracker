@@ -41,6 +41,7 @@ GET   |	`/habits/`           |  List all habits
 POST	| `/habits/`	         |  Create a new habit
 POST	| `/habits/<id>/done`  |  Mark a habit as done + XP & streak update
 POST	| `/habits/daily_reset`|	Reset streaks & restore health/mana daily
+DELETE| `/habits/<habit_id>` |  Let user delete his/her selected habit
 
 ### 🎁 REWARDS
 
@@ -246,6 +247,28 @@ xp_value and cover_photo are optional
   "rank": "Dormant Beginner",
   "streak": 1,
   "xp": 20
+}
+```
+### **DELETE /habits/<habit_id>**
+**Header**
+Authorization: Bearer <refresh_token>      (without quotes)
+
+**Response (success)**
+```json
+{
+  "message": "Habit deleted successfully"
+}
+```
+**Response (habit not found)**
+```json
+{
+  "error": "Habit not found"
+}
+```
+**Response (user does not own the habit)**
+```json
+{
+  "error": "You are not allowed to delete this habit"
 }
 ```
 

@@ -105,3 +105,17 @@ class UserAvatar(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     avatar_id = db.Column(db.Integer, db.ForeignKey("avatar_list.avatar_id"), nullable=False)
+
+
+#----------------------- WEEKLY PROGRESS TABLE ----------------------
+class WeeklyProgress(db.Model):
+    __tablename__ = "weekly_progress"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+
+    week_start = db.Column(db.Date, nullable=False)
+    habits_completed = db.Column(db.Integer, default=0)
+    good_habits = db.Column(db.Integer, default=0)
+    bad_habits = db.Column(db.Integer, default=0)
+    xp_gained = db.Column(db.Integer, default=0)
