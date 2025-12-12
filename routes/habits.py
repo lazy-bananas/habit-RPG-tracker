@@ -114,7 +114,7 @@ def mark_done(habit_id):
     habit.longest_streak = max(habit.longest_streak, habit.streak)
 
     # uodating weekly progress
-    update_weekly_progress(user.user_id, habit)
+    #update_weekly_progress(user.user_id, habit)
 
     # level update
     user.level = calculate_level(user.xp)
@@ -205,64 +205,3 @@ def delete_habit(habit_id):
 
     return jsonify({"message": "Habit deleted successfully"}), 200
 
-
-def update_weekly_progress(user_id, habit):
-    today = date.today()
-
-    # Week starts on Monday
-    week_start = today - timedelta(days=today.weekday())
-
-    record = WeeklyProgress.query.filter_by(
-        user_id=user_id,
-        week_start=week_start
-    ).first()
-
-    if not record:
-        record = WeeklyProgress(
-            user_id=user_id,
-            week_start=week_start
-        )
-        db.session.add(record)
-
-    record.habits_completed += 1
-
-    if habit.habit_type == "good":
-        record.good_habits += 1
-        record.xp_gained += habit.xp_value
-    else:
-        record.bad_habits += 1
-        record.xp_gained -= habit.xp_value
-
-
-    db.session.commit()
-
-
-
-@habits_bp.route("/weekly", methods=["GET"])
-@jwt_required()
-def get_weekly_progress():
-    user_id = int(get_jwt_identity())
-    today = date.today()
-    week_start = today - timedelta(days=today.weekday())
-
-    record = WeeklyProgress.query.filter_by(
-        user_id=user_id,
-        week_start=week_start
-    ).first()
-
-    if not record:
-        return jsonify({
-            "week_start": str(week_start),
-            "habits_completed": 0,
-            "good_habits": 0,
-            "bad_habits": 0,
-            "xp_gained": 0
-        }), 200
-
-    return jsonify({
-        "week_start": str(record.week_start),
-        "habits_completed": record.habits_completed,
-        "good_habits": record.good_habits,
-        "bad_habits": record.bad_habits,
-        "xp_gained": record.xp_gained
-    }), 200
