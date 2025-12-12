@@ -29,3 +29,25 @@ def buy_reward():
     db.session.commit()
 
     return jsonify({"message": "Reward purchased successfully", "remaining_xp": user.xp})
+
+
+@rewards_bp.route("/seed", methods=["POST"])
+def seed_rewards():
+    default_rewards = [
+        Reward(name="1 Hour Gaming Break", cost=50),
+        Reward(name="Buy a coffee", cost=30),
+        Reward(name="Skip One Habit", cost=100),
+        Reward(name="Watch One Episode", cost=80),
+        Reward(name="Take a Nap", cost=40),
+        Reward(name="Fast Food", cost=30),
+        Reward(name="Hang out with friends", cost=100),
+        Reward(name="30 Minute social media", cost=30),
+        Reward(name="30 Minute Video Game", cost=40),
+    ]
+
+    for r in default_rewards:
+        db.session.add(r)
+
+    db.session.commit()
+
+    return jsonify({"message": "Rewards seeded!"})
